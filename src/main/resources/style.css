@@ -1,0 +1,68 @@
+.root{
+    -fx-background-color: #b3b4b4;
+}
+
+.menu-bar {
+    -fx-background-color: #b3b4b4;
+}
+
+.menu .label{
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(28, 28, 57);
+}
+
+.menu .label:hover{
+    -fx-text-fill: #fff;
+}
+
+.menu-item .label{
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(28, 28, 57);
+}
+
+
+.tab-pane *.tab-header-background {
+    -fx-background-color: rgba(71, 74, 141, 0.36);
+    -fx-border-color: #000;
+}
+
+.tab-pane .tab {
+    -fx-background-color: lightgrey;
+}
+
+.tab-pane .tab-label{
+    -fx-text-fill: rgb(28, 28, 57);
+}
+
+.tab:selected .tab-label{
+    -fx-text-fill: #fff;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: rgb(70, 97, 153);
+}
+
+.projectBox {
+    -fx-border-color: rgb(70, 97, 153);
+    -fx-background-color: lightgrey;
+}
+
+.projectBox .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(28, 28, 57);
+}
+
+.table-view{
+    -fx-background-color: #98a1ff;
+    -fx-border-color: #7a7a7a;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: rgb(70, 97, 153);
+}
+
+.table-view .label {
+    -fx-text-fill: #fff;
+}
