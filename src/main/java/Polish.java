@@ -3,7 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class Polish extends ParentPojo {
+public class Polish extends Stock {
     int id;
     String brand;
     int volume;
@@ -18,10 +18,10 @@ public class Polish extends ParentPojo {
 
     public ObservableList<TableColumn> getColumns() {
         ObservableList<TableColumn> list = FXCollections.observableArrayList();
-        TableColumn<ParentPojo, Integer> idCol = new TableColumn<>("ID");
-        TableColumn<ParentPojo, String> brandCol = new TableColumn<>("Brand");
-        TableColumn<ParentPojo, Integer> volumeCol = new TableColumn<>("Volume");
-        TableColumn<ParentPojo, Integer> quantityCol = new TableColumn<>("Quantity");
+        TableColumn<Stock, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Stock, String> brandCol = new TableColumn<>("Brand");
+        TableColumn<Stock, Integer> volumeCol = new TableColumn<>("Volume");
+        TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
         volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume"));

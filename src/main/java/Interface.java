@@ -1,8 +1,5 @@
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,9 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Interface extends Application {
 
@@ -24,8 +18,8 @@ public class Interface extends Application {
     @Override
     public void start(Stage primaryStage) {
         DatabaseHandler dbh = new DatabaseHandler();
-        ObservableList<ParentPojo> main;
-        ObservableList<ParentPojo> stockInitial;
+        ObservableList<Stock> main;
+        ObservableList<Stock> stockInitial;
 
 
         //Layouts
@@ -128,7 +122,7 @@ public class Interface extends Application {
         ComboBox<String> stockType = new ComboBox();
         stockType.getItems().addAll("Wood", "Paint", "Oil", "Varnish", "Glue", "Polish", "Screws");
         stockType.prefWidthProperty().bind(stockLayout.widthProperty());
-        typeCombo.setValue("Wood");
+        stockType.setValue("Wood");
 
         //Table to display project details
             TableView projectTable = new TableView();
@@ -147,8 +141,8 @@ public class Interface extends Application {
         stockInitial = dbh.getWood();
         stockTable.getColumns().addAll(stockInitial.get(0).getColumns());
         stockTable.setItems(stockInitial);
-        typeCombo.valueProperty().addListener((ov, t, t1) -> {
-            ObservableList<ParentPojo> stock = dbh.getWood();
+        stockType.valueProperty().addListener((ov, t, t1) -> {
+            ObservableList<Stock> stock = dbh.getWood();
             switch (t1){
                 case "Wood":
                     stock = dbh.getWood();

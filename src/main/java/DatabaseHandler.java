@@ -22,8 +22,8 @@ public class DatabaseHandler {
         }
     }
 
-    public ObservableList<ParentPojo> getProjectDetails(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getProjectDetails(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"order_details\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM order_details");
@@ -47,8 +47,8 @@ public class DatabaseHandler {
         return list;
     }
 
-    public ObservableList<ParentPojo> getWood(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getWood(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_wood\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_wood");
@@ -70,8 +70,8 @@ public class DatabaseHandler {
             return list;
     }
 
-    public ObservableList<ParentPojo> getScrews(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getScrews(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_screws\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_screws");
@@ -91,8 +91,8 @@ public class DatabaseHandler {
         return list;
     }
 
-    public ObservableList<ParentPojo> getGlue(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getGlue(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_glue\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_glue");
@@ -112,8 +112,8 @@ public class DatabaseHandler {
         return list;
     }
 
-    public ObservableList<ParentPojo> getPaint(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getPaint(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_paint\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_paint");
@@ -135,8 +135,8 @@ public class DatabaseHandler {
         return list;
     }
 
-    public ObservableList<ParentPojo> getOil(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getOil(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_oil\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_oil");
@@ -157,8 +157,8 @@ public class DatabaseHandler {
         return list;
     }
 
-    public ObservableList<ParentPojo> getVarnish(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getVarnish(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_varnish\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_varnish");
@@ -179,8 +179,8 @@ public class DatabaseHandler {
         return list;
     }
 
-    public ObservableList<ParentPojo> getPolish(){
-        ObservableList<ParentPojo> list = FXCollections.observableArrayList();
+    public ObservableList<Stock> getPolish(){
+        ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_polish\"...");
         try {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM stock_polish");

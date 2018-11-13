@@ -3,7 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class ProjectDetails extends ParentPojo{
+public class ProjectDetails extends Stock {
     int id;
     String type;
     int height;
@@ -24,13 +24,13 @@ public class ProjectDetails extends ParentPojo{
 
     public ObservableList<TableColumn> getColumns(){
         ObservableList<TableColumn> list = FXCollections.observableArrayList();
-        TableColumn<ParentPojo, Integer> idCol = new TableColumn<>("ID");
-        TableColumn<ParentPojo, String> typeCol = new TableColumn<>("Type");
-        TableColumn<ParentPojo, Integer> lengthCol = new TableColumn<>("Length");
-        TableColumn<ParentPojo, Integer> widthCol = new TableColumn<>("Width");
-        TableColumn<ParentPojo, Integer> heightCol = new TableColumn<>("Height");
-        TableColumn<ParentPojo, Integer> quantityCol = new TableColumn<>("Quantity");
-        TableColumn<ParentPojo, Double> priceCol = new TableColumn<>("Price");
+        TableColumn<Stock, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Stock, String> typeCol = new TableColumn<>("Type");
+        TableColumn<Stock, Integer> lengthCol = new TableColumn<>("Length");
+        TableColumn<Stock, Integer> widthCol = new TableColumn<>("Width");
+        TableColumn<Stock, Integer> heightCol = new TableColumn<>("Height");
+        TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
+        TableColumn<Stock, Double> priceCol = new TableColumn<>("Price");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         lengthCol.setCellValueFactory(new PropertyValueFactory<>("length"));

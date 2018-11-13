@@ -3,7 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class Screws extends ParentPojo{
+public class Screws extends Stock {
     int id;
     int size;
     String color;
@@ -18,10 +18,10 @@ public class Screws extends ParentPojo{
 
     public ObservableList<TableColumn> getColumns() {
         ObservableList<TableColumn> list = FXCollections.observableArrayList();
-        TableColumn<ParentPojo, Integer> idCol = new TableColumn<>("ID");
-        TableColumn<ParentPojo, Integer> sizeCol = new TableColumn<>("Size");
-        TableColumn<ParentPojo, String> colorCol = new TableColumn<>("Color");
-        TableColumn<ParentPojo, Integer> quantityCol = new TableColumn<>("Quantity");
+        TableColumn<Stock, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Stock, Integer> sizeCol = new TableColumn<>("Size");
+        TableColumn<Stock, String> colorCol = new TableColumn<>("Color");
+        TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
