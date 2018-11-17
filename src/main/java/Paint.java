@@ -1,6 +1,7 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Paint extends Stock {
@@ -20,7 +21,7 @@ public class Paint extends Stock {
         this.quantity = quantity;
     }
 
-    public ObservableList<TableColumn> getColumns() {
+    public ObservableList<TableColumn> getColumns(TableView table) {
         ObservableList<TableColumn> list = FXCollections.observableArrayList();
         TableColumn<Stock, Integer> idCol = new TableColumn<>("ID");
         TableColumn<Stock, String> typeCol = new TableColumn<>("Type");
@@ -34,6 +35,12 @@ public class Paint extends Stock {
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+        typeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
+        brandCol.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+        colorCol.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+        volumeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+        quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         list.addAll(idCol, typeCol, brandCol, colorCol, volumeCol, quantityCol);
         return list;
     }

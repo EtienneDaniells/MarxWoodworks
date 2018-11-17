@@ -66,3 +66,7 @@
 .table-view .label {
     -fx-text-fill: #fff;
 }
+
+.label {
+    -fx-font-weight: bold;
+}

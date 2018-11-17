@@ -1,6 +1,7 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProjectDetails extends Stock {
@@ -22,7 +23,7 @@ public class ProjectDetails extends Stock {
         this.price = price;
     }
 
-    public ObservableList<TableColumn> getColumns(){
+    public ObservableList<TableColumn> getColumns(TableView table){
         ObservableList<TableColumn> list = FXCollections.observableArrayList();
         TableColumn<Stock, Integer> idCol = new TableColumn<>("ID");
         TableColumn<Stock, String> typeCol = new TableColumn<>("Type");
@@ -38,6 +39,13 @@ public class ProjectDetails extends Stock {
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+        typeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+        lengthCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+        widthCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+        heightCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+        quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+        priceCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         list.addAll(idCol, typeCol, lengthCol, widthCol, heightCol, quantityCol, priceCol);
         return list;
     }

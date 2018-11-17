@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Interface extends Application {
@@ -20,12 +21,16 @@ public class Interface extends Application {
         DatabaseHandler dbh = new DatabaseHandler();
         ObservableList<Stock> main;
         ObservableList<Stock> stockInitial;
-
+        ObservableList<String> clients;
 
         //Layouts
         VBox root = new VBox();
+        Scene scene = new Scene(root, 800, 580);
         VBox projectLayout = new VBox();
+        projectLayout.prefHeightProperty().bind(scene.heightProperty());
         HBox stockLayout = new HBox();
+        VBox stockLeftLayout = new VBox(10);
+        stockLeftLayout.setMinWidth(200);
 
         //Menu
         MenuBar menuBar = new MenuBar();
@@ -91,7 +96,8 @@ public class Interface extends Application {
 
         Label userLbl = new Label("Client");
         ComboBox<String> userCombo = new ComboBox<>();
-        //0userCombo.getItems().addAll();
+        clients = dbh.getClients();
+        userCombo.getItems().addAll(clients);
         userCombo.prefWidthProperty().bind(projectBox.widthProperty());
         userCombo.setPromptText("-select-");
 
@@ -121,7 +127,7 @@ public class Interface extends Application {
         //Stock input pane
         ComboBox<String> stockType = new ComboBox();
         stockType.getItems().addAll("Wood", "Paint", "Oil", "Varnish", "Glue", "Polish", "Screws");
-        stockType.prefWidthProperty().bind(stockLayout.widthProperty());
+        stockType.setPrefWidth(120);
         stockType.setValue("Wood");
 
         //Table to display project details
@@ -130,19 +136,22 @@ public class Interface extends Application {
             projectTable.prefWidthProperty().bind(projectLayout.widthProperty());
             main = dbh.getProjectDetails();
                 if(!main.isEmpty()) {
-                    projectTable.getColumns().addAll(main.get(0).getColumns());
+                    projectTable.getColumns().clear();
+                    projectTable.getColumns().addAll(main.get(0).getColumns(projectTable));
                     projectTable.setItems(main);
                 }
 
         //Table to display stock details
-            TableView stockTable = new TableView();
+        TableView stockTable = new TableView();
         stockTable.prefHeightProperty().bind(stockLayout.heightProperty());
         stockTable.prefWidthProperty().bind(stockLayout.widthProperty());
         stockInitial = dbh.getWood();
-        stockTable.getColumns().addAll(stockInitial.get(0).getColumns());
-        stockTable.setItems(stockInitial);
+        if(!stockInitial.isEmpty()) {
+            stockTable.getColumns().addAll(stockInitial.get(0).getColumns(stockTable));
+            stockTable.setItems(stockInitial);
+        }
         stockType.valueProperty().addListener((ov, t, t1) -> {
-            ObservableList<Stock> stock = dbh.getWood();
+            ObservableList<Stock> stock = null;
             switch (t1){
                 case "Wood":
                     stock = dbh.getWood();
@@ -166,37 +175,52 @@ public class Interface extends Application {
                     stock = dbh.getGlue();
                     break;
             }
-            stockTable.getColumns().addAll(stock.get(0).getColumns());
-            stockTable.setItems(stock);
+            if(!stock.isEmpty()) {
+                stockTable.getColumns().clear();
+                stockTable.getColumns().addAll(stock.get(0).getColumns(stockTable));
+                stockTable.setItems(stock);
+            }
         });
 
-        /*if() {
-            main = dbh.getProjectDetails();
-            projectTable.getColumns().addAll(main.get(0).getColumns());
-            projectTable.setItems(main);
-        }*/
-
-
         //Project Layout
+        Stage showProjectInput = new Stage();
+        showProjectInput.initModality(Modality.APPLICATION_MODAL);
+        showProjectInput.initOwner(primaryStage);
+        showProjectInput.setTitle("Add new Project");
+        showProjectInput.getIcons().add(new Image("logomarx.png"));
+        Scene newProjectScene = new Scene(projectBox);
         HBox topView = new HBox(10);
         VBox leftView = new VBox(10);
+        leftView.setAlignment(Pos.CENTER);
         VBox imageAllign = new VBox();
+        Button newProjectBtn = new Button("New Project");
+        newProjectBtn.setOnAction(e ->{
+            showProjectInput.setScene(newProjectScene);
+            showProjectInput.showAndWait();
+        });
+        Button editRecords = new Button("Edit Records");
         imageAllign.getChildren().add(logoDisplay);
         imageAllign.prefHeightProperty().bind(projectLayout.heightProperty());
         imageAllign.setAlignment(Pos.BOTTOM_CENTER);
-        leftView.getChildren().addAll(projectBox, imageAllign);
+        leftView.getChildren().addAll(newProjectBtn, editRecords, imageAllign);
         topView.getChildren().addAll(leftView, projectTable);
         projectLayout.setPadding(new Insets(10));
         projectLayout.getChildren().addAll(topView);
 
         //Stock layout
-        VBox stockLeftLayout = new VBox(10);
-        stockLeftLayout.getChildren().add(stockType);
+        VBox pane = new VBox();
+        HBox stockTypeBox = new HBox(20);
+        Label stockTypeLbl = new Label("Type");
+        stockTypeBox.getChildren().addAll(stockTypeLbl ,stockType);
+        pane.prefHeightProperty().bind(stockLeftLayout.heightProperty());
+        stockLeftLayout.getChildren().addAll(stockTypeBox, pane);
+        stockLeftLayout.setAlignment(Pos.CENTER);
+        stockLeftLayout.setPadding(new Insets(20, 0,20,0));
         stockLayout.getChildren().addAll(stockLeftLayout, stockTable);
+        stockLayout.setPadding(new Insets(10));
 
         primaryStage.setTitle("Marx Woodworks");
         primaryStage.getIcons().add(new Image("logomarx.png"));
-        Scene scene = new Scene(root, 800, 580);
         scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
         root.getChildren().addAll(menuBar,tabPane);

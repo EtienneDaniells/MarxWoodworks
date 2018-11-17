@@ -199,4 +199,19 @@ public class DatabaseHandler {
         }
         return list;
     }
+
+    public ObservableList<String> getClients(){
+        ObservableList<String> list = FXCollections.observableArrayList();
+        try{
+            PreparedStatement stmt = con.prepareStatement("Select * from client_info");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                String name = rs.getString("client_name") + " "+rs.getString("client_surname");
+                list.add(name);
+            }
+        }catch (Exception dbError){
+            System.out.println("System > Error retrieving client data");
+        }
+        return list;
+    }
 }
