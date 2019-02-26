@@ -8,9 +8,35 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class Interface extends Application {
+
+    private final Stage showProjectInput = new Stage();
+    private Label typeLbl = new Label("Type");
+    private ComboBox<String> typeCombo = new ComboBox<>();
+    private Button acceptBtn = new Button("Accept");
+    private Button cancelBtn = new Button("Cancel");
+    private Label heightLbl = new Label("Height (mm)");
+    private TextField heightTxt = new TextField();
+    private Label lengthLbl = new Label("Length (mm)");
+    private TextField lengthTxt = new TextField();
+    private Label widthLbl = new Label("Width (mm)");
+    private TextField widthTxt = new TextField();
+    private Label quantityLbl = new Label("Quantity");
+    private TextField quantityTxt = new TextField();
+    private Label pricePILbl = new Label("Item Price (R)");
+    private TextField pricePITxt = new TextField();
+    private Label priceTotLbl = new Label("Total Price (R)");
+    private TextField priceTotTxt = new TextField();
+    private Label userLbl = new Label("Client");
+    private ComboBox<String> userCombo = new ComboBox<>();
+    private TableView projectTable = new TableView();
+    private DatabaseHandler dbh = new DatabaseHandler();
+    private ObservableList<Stock> main;
+    private ObservableList<Stock> stockInitial;
+    private ObservableList<String> clients;
 
     public static void main(String[] args) {
         launch(args);
@@ -18,10 +44,7 @@ public class Interface extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        DatabaseHandler dbh = new DatabaseHandler();
-        ObservableList<Stock> main;
-        ObservableList<Stock> stockInitial;
-        ObservableList<String> clients;
+
 
         //Layouts
         VBox root = new VBox();
@@ -31,6 +54,7 @@ public class Interface extends Application {
         HBox stockLayout = new HBox();
         VBox stockLeftLayout = new VBox(10);
         stockLeftLayout.setMinWidth(200);
+
 
         //Menu
         MenuBar menuBar = new MenuBar();
@@ -69,40 +93,24 @@ public class Interface extends Application {
         projectBox.setHgap(10);
         projectBox.setMinHeight(290);
 
-        Label typeLbl = new Label("Type");
-        ComboBox<String> typeCombo = new ComboBox<>();
+
         typeCombo.getItems().addAll("Chair", "Table", "Cupboard", "Desk", "Bed");
         typeCombo.prefWidthProperty().bind(projectBox.widthProperty());
         typeCombo.setPromptText("-select-");
 
+        HBox newProjButtons = new HBox(20);
+        newProjButtons.setPadding(new Insets(10));
+        newProjButtons.getChildren().addAll(acceptBtn, cancelBtn);
+        acceptBtn.setPrefWidth(100);
+        cancelBtn.setPrefWidth(100);
 
-        Label heightLbl = new Label("Height (mm)");
-        TextField heightTxt = new TextField();
-
-        Label lengthLbl = new Label("Length (mm)");
-        TextField lengthTxt = new TextField();
-
-        Label widthLbl = new Label("Width (mm)");
-        TextField widthTxt = new TextField();
-
-        Label quantityLbl = new Label("Quantity");
-        TextField quantityTxt = new TextField();
-
-        Label pricePILbl = new Label("Item Price (R)");
-        TextField pricePITxt = new TextField();
-
-        Label priceTotLbl = new Label("Total Price (R)");
-        TextField priceTotTxt = new TextField();
-
-        Label userLbl = new Label("Client");
-        ComboBox<String> userCombo = new ComboBox<>();
         clients = dbh.getClients();
         userCombo.getItems().addAll(clients);
         userCombo.prefWidthProperty().bind(projectBox.widthProperty());
         userCombo.setPromptText("-select-");
 
         projectBox.getChildren().addAll(typeLbl, typeCombo, heightLbl, heightTxt, lengthLbl, lengthTxt, widthLbl, widthTxt, quantityLbl, quantityTxt,
-                                        pricePILbl, pricePITxt, priceTotLbl, priceTotTxt, userLbl, userCombo);
+                                        pricePILbl, pricePITxt, priceTotLbl, priceTotTxt, userLbl, userCombo, newProjButtons);
 
         GridPane.setConstraints(typeLbl, 0,0);
         GridPane.setConstraints(typeCombo, 1,0);
@@ -120,6 +128,7 @@ public class Interface extends Application {
         GridPane.setConstraints(priceTotTxt, 1,6);
         GridPane.setConstraints(userLbl, 0,7);
         GridPane.setConstraints(userCombo, 1,7);
+        GridPane.setConstraints(newProjButtons, 0,8,2,1);
         Image logo = new Image(getClass().getResourceAsStream("logomarx.png"));
         ImageView logoDisplay = new ImageView(logo);
         logoDisplay.fitWidthProperty().bind(projectBox.widthProperty());
@@ -131,15 +140,10 @@ public class Interface extends Application {
         stockType.setValue("Wood");
 
         //Table to display project details
-            TableView projectTable = new TableView();
-            projectTable.prefHeightProperty().bind(projectLayout.heightProperty());
-            projectTable.prefWidthProperty().bind(projectLayout.widthProperty());
-            main = dbh.getProjectDetails();
-                if(!main.isEmpty()) {
-                    projectTable.getColumns().clear();
-                    projectTable.getColumns().addAll(main.get(0).getColumns(projectTable));
-                    projectTable.setItems(main);
-                }
+
+            projectTable.prefHeightProperty().bind(root.heightProperty());
+            projectTable.prefWidthProperty().bind(root.widthProperty());
+            getProjectDetails();
 
         //Table to display stock details
         TableView stockTable = new TableView();
@@ -183,10 +187,11 @@ public class Interface extends Application {
         });
 
         //Project Layout
-        Stage showProjectInput = new Stage();
         showProjectInput.initModality(Modality.APPLICATION_MODAL);
         showProjectInput.initOwner(primaryStage);
         showProjectInput.setTitle("Add new Project");
+        showProjectInput.setMinWidth(268);
+        showProjectInput.setMaxWidth(268);
         showProjectInput.getIcons().add(new Image("logomarx.png"));
         Scene newProjectScene = new Scene(projectBox);
         HBox topView = new HBox(10);
@@ -194,13 +199,37 @@ public class Interface extends Application {
         leftView.setAlignment(Pos.CENTER);
         VBox imageAllign = new VBox();
         Button newProjectBtn = new Button("New Project");
+
         newProjectBtn.setOnAction(e ->{
             showProjectInput.setScene(newProjectScene);
             showProjectInput.showAndWait();
         });
+
+
+        cancelBtn.setOnAction(e -> clear());
+
+        acceptBtn.setOnAction(e -> {
+            if(userCombo.getValue() == null || typeCombo.getValue() == null){
+                System.out.println("accept error");
+                clear();
+            }else{
+                System.out.println("accept");
+                dbh.addNewRecord(
+                        typeCombo.getValue(),
+                        Integer.parseInt(heightTxt.getText()),
+                        Integer.parseInt(lengthTxt.getText()),
+                        Integer.parseInt(widthTxt.getText()),
+                        Integer.parseInt(quantityTxt.getText()),
+                        Double.parseDouble(pricePITxt.getText()),
+                        userCombo.getValue());
+                clear();
+                getProjectDetails();
+            }
+        });
+
         Button editRecords = new Button("Edit Records");
         imageAllign.getChildren().add(logoDisplay);
-        imageAllign.prefHeightProperty().bind(projectLayout.heightProperty());
+        imageAllign.prefHeightProperty().bind(root.heightProperty());
         imageAllign.setAlignment(Pos.BOTTOM_CENTER);
         leftView.getChildren().addAll(newProjectBtn, editRecords, imageAllign);
         topView.getChildren().addAll(leftView, projectTable);
@@ -224,6 +253,30 @@ public class Interface extends Application {
         scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
         root.getChildren().addAll(menuBar,tabPane);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(580);
         primaryStage.show();
     }
+
+    private void clear(){
+        showProjectInput.close();
+        heightTxt.setText("");
+        lengthTxt.setText("");
+        widthTxt.setText("");
+        pricePITxt.setText("");
+        priceTotTxt.setText("");
+        quantityTxt.setText("");
+        userCombo.setValue(null);
+        typeCombo.setValue(null);
+    }
+
+    private void getProjectDetails(){
+        main = dbh.getProjectDetails();
+        if(!main.isEmpty()) {
+            projectTable.getColumns().clear();
+            projectTable.getColumns().addAll(main.get(0).getColumns(projectTable));
+            projectTable.setItems(main);
+        }
+    }
+
 }

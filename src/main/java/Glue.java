@@ -25,7 +25,7 @@ public class Glue extends Stock {
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
-        volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume)"));
+        volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
         brandCol.prefWidthProperty().bind(table.widthProperty().multiply(0.3));

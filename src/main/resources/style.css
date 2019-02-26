@@ -52,6 +52,11 @@
     -fx-text-fill: rgb(28, 28, 57);
 }
 
+.projectBox .button {
+    -fx-background-color: rgba(71, 74, 141, 0.36);
+    -fx-border-color: #000;
+}
+
 .table-view{
     -fx-background-color: #98a1ff;
     -fx-border-color: #7a7a7a;

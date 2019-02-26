@@ -47,6 +47,28 @@ public class DatabaseHandler {
         return list;
     }
 
+    public void addNewRecord(String type, int height, int length, int width, int quantity, double pricePI, String client){
+        try {
+            String query = "INSERT INTO order_details (order_type, order_height, order_length, order_width," +
+                    "order_amount, order_price, client_id) VALUES (?,?,?,?,?,?,?)";
+            int clientID = getClientID(client);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, type);
+            stmt.setInt(2, height);
+            stmt.setInt(3, length);
+            stmt.setInt(4, width);
+            stmt.setInt(5, quantity);
+            stmt.setDouble(6, pricePI);
+            stmt.setInt(7, clientID);
+
+            stmt.execute();
+            System.out.println("System > New project added");
+        }catch (Exception ex){
+            System.out.println("System > Error inserting data into table \"order_details\"");
+            ex.printStackTrace();
+        }
+    }
+
     public ObservableList<Stock> getWood(){
         ObservableList<Stock> list = FXCollections.observableArrayList();
         System.out.println("System > Retrieving data from table \"stock_wood\"...");
@@ -213,5 +235,22 @@ public class DatabaseHandler {
             System.out.println("System > Error retrieving client data");
         }
         return list;
+    }
+
+    private int getClientID(String client){
+        try{
+            String[] arr = client.split(" ");
+            PreparedStatement stmt = con.prepareStatement("Select client_ID from client_info WHERE client_name = ? and client_surname = ?");
+            stmt.setString(1, arr[0]);
+            stmt.setString(2, arr[1]);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int clientID = rs.getInt("client_ID");
+            return clientID;
+        }catch (Exception ex){
+            System.out.println(ex);
+            System.out.println("System > No matching client found.");
+        }
+        return -1;
     }
 }
