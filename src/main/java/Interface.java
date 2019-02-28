@@ -37,6 +37,19 @@ public class Interface extends Application {
     private ObservableList<Stock> main;
     private ObservableList<Stock> stockInitial;
     private ObservableList<String> clients;
+    private Button newClientBtn = new Button("New Client");
+    private TextField clientNameTxt = new TextField();
+    private Label clientNameLbl = new Label("Client Name: ");
+    private TextField clientSurnameTxt = new TextField();
+    private Label clientSurnameLbl = new Label("Client Surname:");
+    private TextField clientAddressTxt = new TextField();
+    private Label clientAddressLbl = new Label("Client Address:");
+    private TextField clientEmailTxt = new TextField();
+    private Label clientEmailLbl = new Label("Client e-Mail:");
+    private TextField clientPhoneTxt = new TextField();
+    private Label clientPhoneLbl = new Label("Client Phone Nr:");
+    private Button acceptClientBtn = new Button("Accept");
+    private Button cancelClientBtn = new Button("Cancel");
 
     public static void main(String[] args) {
         launch(args);
@@ -48,7 +61,7 @@ public class Interface extends Application {
 
         //Layouts
         VBox root = new VBox();
-        Scene scene = new Scene(root, 800, 580);
+        Scene scene = new Scene(root, 1366, 768);
         VBox projectLayout = new VBox();
         projectLayout.prefHeightProperty().bind(scene.heightProperty());
         HBox stockLayout = new HBox();
@@ -190,8 +203,8 @@ public class Interface extends Application {
         showProjectInput.initModality(Modality.APPLICATION_MODAL);
         showProjectInput.initOwner(primaryStage);
         showProjectInput.setTitle("Add new Project");
-        showProjectInput.setMinWidth(268);
-        showProjectInput.setMaxWidth(268);
+        showProjectInput.setMinWidth(300);
+        showProjectInput.setMaxWidth(300);
         showProjectInput.getIcons().add(new Image("logomarx.png"));
         Scene newProjectScene = new Scene(projectBox);
         HBox topView = new HBox(10);
@@ -227,11 +240,14 @@ public class Interface extends Application {
             }
         });
 
-        Button editRecords = new Button("Edit Records");
+        Button editRecordsBtn = new Button("Edit Records");
+        newProjectBtn.setMinWidth(120);
+        editRecordsBtn.setMinWidth(120);
+        newClientBtn.setMinWidth(120);
         imageAllign.getChildren().add(logoDisplay);
         imageAllign.prefHeightProperty().bind(root.heightProperty());
         imageAllign.setAlignment(Pos.BOTTOM_CENTER);
-        leftView.getChildren().addAll(newProjectBtn, editRecords, imageAllign);
+        leftView.getChildren().addAll(newProjectBtn, editRecordsBtn, newClientBtn, imageAllign);
         topView.getChildren().addAll(leftView, projectTable);
         projectLayout.setPadding(new Insets(10));
         projectLayout.getChildren().addAll(topView);

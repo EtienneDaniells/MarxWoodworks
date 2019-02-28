@@ -240,9 +240,18 @@ public class DatabaseHandler {
     private int getClientID(String client){
         try{
             String[] arr = client.split(" ");
+            String name = arr[0];
+            String surname = "";
             PreparedStatement stmt = con.prepareStatement("Select client_ID from client_info WHERE client_name = ? and client_surname = ?");
-            stmt.setString(1, arr[0]);
-            stmt.setString(2, arr[1]);
+            for(int i = 1; i<arr.length; i++){
+                if(Character.isLowerCase(arr[i].charAt(0))){
+                    surname += arr[i]+" ";
+                }else{
+                    surname += arr[i];
+                }
+            }
+            stmt.setString(1, name);
+            stmt.setString(2, surname);
             ResultSet rs = stmt.executeQuery();
             rs.next();
             int clientID = rs.getInt("client_ID");
