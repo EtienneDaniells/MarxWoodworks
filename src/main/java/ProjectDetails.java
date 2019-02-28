@@ -12,8 +12,9 @@ public class ProjectDetails extends Stock {
     int width;
     int quantity;
     double price;
+    String status;
 
-    public ProjectDetails(int id, String type, int length, int width, int height, int quantity, double price) {
+    public ProjectDetails(int id, String type, int length, int width, int height, int quantity, double price, String status) {
         this.id = id;
         this.type = type;
         this.length = length;
@@ -21,6 +22,7 @@ public class ProjectDetails extends Stock {
         this.height = height;
         this.quantity = quantity;
         this.price = price;
+        this.status = status;
     }
 
     public ObservableList<TableColumn> getColumns(TableView table){
@@ -32,6 +34,8 @@ public class ProjectDetails extends Stock {
         TableColumn<Stock, Integer> heightCol = new TableColumn<>("Height");
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
         TableColumn<Stock, Double> priceCol = new TableColumn<>("Price");
+        TableColumn<Stock, String> statusCol = new TableColumn<>("Status");
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         lengthCol.setCellValueFactory(new PropertyValueFactory<>("length"));
@@ -39,14 +43,18 @@ public class ProjectDetails extends Stock {
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         typeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         lengthCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         widthCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         heightCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
-        quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
-        priceCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
-        list.addAll(idCol, typeCol, lengthCol, widthCol, heightCol, quantityCol, priceCol);
+        quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+        priceCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+        statusCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+
+        list.addAll(idCol, typeCol, lengthCol, widthCol, heightCol, quantityCol, priceCol, statusCol);
         return list;
     }
 

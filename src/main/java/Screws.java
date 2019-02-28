@@ -23,14 +23,17 @@ public class Screws extends Stock {
         TableColumn<Stock, Integer> sizeCol = new TableColumn<>("Size");
         TableColumn<Stock, String> colorCol = new TableColumn<>("Color");
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
         sizeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
         colorCol.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
         quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+
         list.addAll(idCol, sizeCol, colorCol, quantityCol);
         return list;
     }

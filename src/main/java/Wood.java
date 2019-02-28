@@ -29,18 +29,21 @@ public class Wood extends Stock {
         TableColumn<Stock, Integer> widthCol = new TableColumn<>("Width");
         TableColumn<Stock, Integer> heightCol = new TableColumn<>("Height");
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         lengthCol.setCellValueFactory(new PropertyValueFactory<>("length"));
         widthCol.setCellValueFactory(new PropertyValueFactory<>("width"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         typeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.30));
         lengthCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         widthCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         heightCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+
         list.addAll(idCol, typeCol, lengthCol, widthCol, heightCol, quantityCol);
         return list;
     }

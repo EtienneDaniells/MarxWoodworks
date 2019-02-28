@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 public class Interface extends Application {
 
     private final Stage showProjectInput = new Stage();
+    private final Stage showClientInput = new Stage();
     private Label typeLbl = new Label("Type");
     private ComboBox<String> typeCombo = new ComboBox<>();
     private Button acceptBtn = new Button("Accept");
@@ -28,8 +29,8 @@ public class Interface extends Application {
     private TextField quantityTxt = new TextField();
     private Label pricePILbl = new Label("Item Price (R)");
     private TextField pricePITxt = new TextField();
-    private Label priceTotLbl = new Label("Total Price (R)");
-    private TextField priceTotTxt = new TextField();
+    private Label statusLbl = new Label("Status");
+    private ComboBox<String> statusCombo = new ComboBox<>();
     private Label userLbl = new Label("Client");
     private ComboBox<String> userCombo = new ComboBox<>();
     private TableView projectTable = new TableView();
@@ -106,7 +107,7 @@ public class Interface extends Application {
         projectBox.setHgap(10);
         projectBox.setMinHeight(290);
 
-
+        //New project input pane
         typeCombo.getItems().addAll("Chair", "Table", "Cupboard", "Desk", "Bed");
         typeCombo.prefWidthProperty().bind(projectBox.widthProperty());
         typeCombo.setPromptText("-select-");
@@ -122,8 +123,12 @@ public class Interface extends Application {
         userCombo.prefWidthProperty().bind(projectBox.widthProperty());
         userCombo.setPromptText("-select-");
 
+        statusCombo.setPromptText("-select-");
+        statusCombo.getItems().addAll("Not Started", "In Progress", "Postponed", "Completed");
+        statusCombo.prefWidthProperty().bind(projectBox.widthProperty());
+
         projectBox.getChildren().addAll(typeLbl, typeCombo, heightLbl, heightTxt, lengthLbl, lengthTxt, widthLbl, widthTxt, quantityLbl, quantityTxt,
-                                        pricePILbl, pricePITxt, priceTotLbl, priceTotTxt, userLbl, userCombo, newProjButtons);
+                                        pricePILbl, pricePITxt, statusLbl, statusCombo, userLbl, userCombo, newProjButtons);
 
         GridPane.setConstraints(typeLbl, 0,0);
         GridPane.setConstraints(typeCombo, 1,0);
@@ -137,11 +142,40 @@ public class Interface extends Application {
         GridPane.setConstraints(quantityTxt, 1,4);
         GridPane.setConstraints(pricePILbl, 0,5);
         GridPane.setConstraints(pricePITxt, 1,5);
-        GridPane.setConstraints(priceTotLbl, 0,6);
-        GridPane.setConstraints(priceTotTxt, 1,6);
+        GridPane.setConstraints(statusLbl, 0,6);
+        GridPane.setConstraints(statusCombo, 1,6);
         GridPane.setConstraints(userLbl, 0,7);
         GridPane.setConstraints(userCombo, 1,7);
         GridPane.setConstraints(newProjButtons, 0,8,2,1);
+
+        //New client input pane
+        HBox newClientBtns = new HBox(10);
+        newClientBtns.getChildren().addAll(acceptClientBtn, cancelClientBtn);
+        newClientBtns.setPadding(new Insets(10));
+        acceptClientBtn.setMinWidth(100);
+        cancelClientBtn.setMinWidth(100);
+        GridPane newClientBox = new GridPane();
+        newClientBox.getColumnConstraints().add(new ColumnConstraints(90));
+        newClientBox.getStyleClass().add("projectBox");
+        newClientBox.setPadding(new Insets(10));
+        newClientBox.setVgap(15);
+        newClientBox.setHgap(10);
+        newClientBox.setMinHeight(290);
+
+        newClientBox.getChildren().addAll(clientNameLbl, clientNameTxt, clientSurnameLbl, clientSurnameTxt, clientAddressLbl, clientAddressTxt,
+                clientEmailLbl, clientEmailTxt, clientPhoneLbl, clientPhoneTxt, newClientBtns);
+        newClientBox.setConstraints(clientNameLbl, 0,0);
+        newClientBox.setConstraints(clientNameTxt, 1,0);
+        newClientBox.setConstraints(clientSurnameLbl, 0,1);
+        newClientBox.setConstraints(clientSurnameTxt, 1,1);
+        newClientBox.setConstraints(clientAddressLbl, 0,2);
+        newClientBox.setConstraints(clientAddressTxt, 1,2);
+        newClientBox.setConstraints(clientEmailLbl, 0,3);
+        newClientBox.setConstraints(clientEmailTxt, 1,3);
+        newClientBox.setConstraints(clientPhoneLbl, 0,4);
+        newClientBox.setConstraints(clientPhoneTxt, 1,4);
+        GridPane.setConstraints(newClientBtns, 0,5,2,1);
+
         Image logo = new Image(getClass().getResourceAsStream("logomarx.png"));
         ImageView logoDisplay = new ImageView(logo);
         logoDisplay.fitWidthProperty().bind(projectBox.widthProperty());
@@ -200,11 +234,12 @@ public class Interface extends Application {
         });
 
         //Project Layout
+        //new Project input
         showProjectInput.initModality(Modality.APPLICATION_MODAL);
         showProjectInput.initOwner(primaryStage);
         showProjectInput.setTitle("Add new Project");
-        showProjectInput.setMinWidth(300);
-        showProjectInput.setMaxWidth(300);
+        showProjectInput.setMinWidth(268);
+        showProjectInput.setMaxWidth(268);
         showProjectInput.getIcons().add(new Image("logomarx.png"));
         Scene newProjectScene = new Scene(projectBox);
         HBox topView = new HBox(10);
@@ -222,7 +257,7 @@ public class Interface extends Application {
         cancelBtn.setOnAction(e -> clear());
 
         acceptBtn.setOnAction(e -> {
-            if(userCombo.getValue() == null || typeCombo.getValue() == null){
+            if(userCombo.getValue() == null || typeCombo.getValue() == null || statusCombo.getValue() == null){
                 System.out.println("accept error");
                 clear();
             }else{
@@ -234,10 +269,25 @@ public class Interface extends Application {
                         Integer.parseInt(widthTxt.getText()),
                         Integer.parseInt(quantityTxt.getText()),
                         Double.parseDouble(pricePITxt.getText()),
-                        userCombo.getValue());
+                        userCombo.getValue(),
+                        statusCombo.getValue());
                 clear();
                 getProjectDetails();
             }
+        });
+
+        //new Client input
+        showClientInput.initModality(Modality.APPLICATION_MODAL);
+        showClientInput.initOwner(primaryStage);
+        showClientInput.setTitle("Add new Client");
+        showClientInput.setMinWidth(268);
+        showClientInput.setMaxWidth(268);
+        showClientInput.getIcons().add(new Image("logomarx.png"));
+        Scene newClientScene = new Scene(newClientBox);
+
+        newClientBtn.setOnAction(e -> {
+            showClientInput.setScene(newClientScene);
+            showClientInput.showAndWait();
         });
 
         Button editRecordsBtn = new Button("Edit Records");
@@ -251,6 +301,25 @@ public class Interface extends Application {
         topView.getChildren().addAll(leftView, projectTable);
         projectLayout.setPadding(new Insets(10));
         projectLayout.getChildren().addAll(topView);
+
+        cancelClientBtn.setOnAction(e -> clearClient());
+
+        acceptClientBtn.setOnAction(e -> {
+            if(!clientEmailTxt.getText().contains("@") || !clientEmailTxt.getText().contains(".co")){
+                alertError("e-mail");
+            }else if(clientPhoneTxt.getText().length() != 10 || !clientPhoneTxt.getText().matches("[0-9]+")){
+                alertError("phone number");
+            }else{
+                dbh.addNewClient(
+                        clientNameTxt.getText(),
+                        clientSurnameTxt.getText(),
+                        clientAddressTxt.getText(),
+                        clientEmailTxt.getText(),
+                        clientPhoneTxt.getText()
+                );
+                clearClient();
+            }
+        });
 
         //Stock layout
         VBox pane = new VBox();
@@ -280,10 +349,19 @@ public class Interface extends Application {
         lengthTxt.setText("");
         widthTxt.setText("");
         pricePITxt.setText("");
-        priceTotTxt.setText("");
+        statusCombo.setValue(null);
         quantityTxt.setText("");
         userCombo.setValue(null);
         typeCombo.setValue(null);
+    }
+
+    private void clearClient(){
+        showClientInput.close();
+        clientNameTxt.setText("");
+        clientSurnameTxt.setText("");
+        clientAddressTxt.setText("");
+        clientEmailTxt.setText("");
+        clientPhoneTxt.setText("");
     }
 
     private void getProjectDetails(){
@@ -293,6 +371,14 @@ public class Interface extends Application {
             projectTable.getColumns().addAll(main.get(0).getColumns(projectTable));
             projectTable.setItems(main);
         }
+    }
+
+    private void alertError(String error){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Input Error");
+        alert.setHeaderText("Error in " + error);
+        alert.setContentText("You entered invalid information");
+        alert.showAndWait();
     }
 
 }

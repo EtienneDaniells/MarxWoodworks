@@ -26,16 +26,19 @@ public class Oil extends Stock {
         TableColumn<Stock, String> colorCol = new TableColumn<>("Color");
         TableColumn<Stock, Integer> volumeCol = new TableColumn<>("Volume");
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.12));
         brandCol.prefWidthProperty().bind(table.widthProperty().multiply(0.22));
         colorCol.prefWidthProperty().bind(table.widthProperty().multiply(0.22));
         volumeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.22));
         quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.22));
+
         list.addAll(idCol, brandCol, colorCol, volumeCol, quantityCol);
         return list;
     }

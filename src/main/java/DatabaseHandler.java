@@ -36,7 +36,8 @@ public class DatabaseHandler {
                         rs.getInt("order_width"),
                         rs.getInt("order_height"),
                         rs.getInt("order_amount"),
-                        rs.getDouble("order_price")
+                        rs.getDouble("order_price"),
+                        rs.getString("order_status")
                 );
                 list.add(projectDetails);
             }
@@ -47,10 +48,10 @@ public class DatabaseHandler {
         return list;
     }
 
-    public void addNewRecord(String type, int height, int length, int width, int quantity, double pricePI, String client){
+    public void addNewRecord(String type, int height, int length, int width, int quantity, double pricePI, String client, String status){
         try {
             String query = "INSERT INTO order_details (order_type, order_height, order_length, order_width," +
-                    "order_amount, order_price, client_id) VALUES (?,?,?,?,?,?,?)";
+                    "order_amount, order_price, client_id, order_status) VALUES (?,?,?,?,?,?,?,?)";
             int clientID = getClientID(client);
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, type);
@@ -60,12 +61,31 @@ public class DatabaseHandler {
             stmt.setInt(5, quantity);
             stmt.setDouble(6, pricePI);
             stmt.setInt(7, clientID);
+            stmt.setString(8, status);
 
             stmt.execute();
             System.out.println("System > New project added");
         }catch (Exception ex){
             System.out.println("System > Error inserting data into table \"order_details\"");
             ex.printStackTrace();
+        }
+    }
+
+    public void addNewClient(String name, String surname, String address, String email, String phoneNr){
+        try {
+            String query = "INSERT INTO client_info (client_name, client_surname, client_address, client_Email," +
+                    "client_phone) VALUES (?,?,?,?,?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, name);
+            stmt.setString(2, surname);
+            stmt.setString(3, address);
+            stmt.setString(4, email);
+            stmt.setString(5, phoneNr);
+
+            stmt.execute();
+            System.out.println("System > New Client added");
+        }catch (Exception ex){
+            System.out.println("System > Error inserting data into table \"client_info\"");
         }
     }
 

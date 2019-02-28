@@ -26,16 +26,19 @@ public class Varnish extends Stock {
         TableColumn<Stock, String> typeCol = new TableColumn<>("Type");
         TableColumn<Stock, Integer> volumeCol = new TableColumn<>("Volume");
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         brandCol.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
         typeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
         volumeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+
         list.addAll(idCol, brandCol, typeCol, volumeCol, quantityCol);
         return list;
     }

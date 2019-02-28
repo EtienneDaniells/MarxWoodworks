@@ -29,18 +29,21 @@ public class Paint extends Stock {
         TableColumn<Stock, String> colorCol = new TableColumn<>("Color");
         TableColumn<Stock, Integer> volumeCol = new TableColumn<>("Volume");
         TableColumn<Stock, Integer> quantityCol = new TableColumn<>("Quantity");
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         volumeCol.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         idCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         typeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
         brandCol.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
         colorCol.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
         volumeCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         quantityCol.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+
         list.addAll(idCol, typeCol, brandCol, colorCol, volumeCol, quantityCol);
         return list;
     }
