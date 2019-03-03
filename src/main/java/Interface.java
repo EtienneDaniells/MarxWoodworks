@@ -244,6 +244,7 @@ public class Interface extends Application {
         Scene newProjectScene = new Scene(projectBox);
         HBox topView = new HBox(10);
         VBox leftView = new VBox(10);
+        leftView.setPadding(new Insets(40, 0, 0, 0));
         leftView.setAlignment(Pos.CENTER);
         VBox imageAllign = new VBox();
         Button newProjectBtn = new Button("New Project");
@@ -258,10 +259,9 @@ public class Interface extends Application {
 
         acceptBtn.setOnAction(e -> {
             if(userCombo.getValue() == null || typeCombo.getValue() == null || statusCombo.getValue() == null){
-                System.out.println("accept error");
-                clear();
+                alertError("Please fill in all textfields");
+                //clear();
             }else{
-                System.out.println("accept");
                 dbh.addNewRecord(
                         typeCombo.getValue(),
                         Integer.parseInt(heightTxt.getText()),
@@ -306,9 +306,9 @@ public class Interface extends Application {
 
         acceptClientBtn.setOnAction(e -> {
             if(!clientEmailTxt.getText().contains("@") || !clientEmailTxt.getText().contains(".co")){
-                alertError("e-mail");
+                alertError("Please enter a valid e-mail address");
             }else if(clientPhoneTxt.getText().length() != 10 || !clientPhoneTxt.getText().matches("[0-9]+")){
-                alertError("phone number");
+                alertError("Please enter a valid phone number");
             }else{
                 dbh.addNewClient(
                         clientNameTxt.getText(),
@@ -376,8 +376,8 @@ public class Interface extends Application {
     private void alertError(String error){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Input Error");
-        alert.setHeaderText("Error in " + error);
-        alert.setContentText("You entered invalid information");
+        alert.setHeaderText("You entered invalid information");
+        alert.setContentText(error);
         alert.showAndWait();
     }
 
