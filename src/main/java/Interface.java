@@ -51,6 +51,8 @@ public class Interface extends Application {
     private Label clientPhoneLbl = new Label("Client Phone Nr:");
     private Button acceptClientBtn = new Button("Accept");
     private Button cancelClientBtn = new Button("Cancel");
+    private Button newStockBtn = new Button("New Item");
+
 
     public static void main(String[] args) {
         launch(args);
@@ -186,6 +188,14 @@ public class Interface extends Application {
         stockType.setPrefWidth(120);
         stockType.setValue("Wood");
 
+        GridPane newStockBox = new GridPane();
+        newStockBox.getColumnConstraints().add(new ColumnConstraints(90));
+        newStockBox.getStyleClass().add("newStockBox");
+        newStockBox.setPadding(new Insets(10));
+        newStockBox.setVgap(8);
+        newStockBox.setHgap(10);
+        newStockBox.setMinHeight(290);
+
         //Table to display project details
 
             projectTable.prefHeightProperty().bind(root.heightProperty());
@@ -258,9 +268,14 @@ public class Interface extends Application {
         cancelBtn.setOnAction(e -> clear());
 
         acceptBtn.setOnAction(e -> {
-            if(userCombo.getValue() == null || typeCombo.getValue() == null || statusCombo.getValue() == null){
-                alertError("Please fill in all textfields");
-                //clear();
+            if(userCombo.getValue() == null) {
+                alertError("Please select a user");
+            }else if(typeCombo.getValue() == null){
+                alertError("Please select item type");
+            }else if(statusCombo.getValue() == null) {
+                alertError("Please select a project status");
+            }else if(heightTxt.getText().equals("") || lengthTxt.getText().equals("")|| widthTxt.getText().equals("") || quantityTxt.getText().equals("") || pricePITxt.getText().equals("")){
+                alertError("Please fill in all the textfields");
             }else{
                 dbh.addNewRecord(
                         typeCombo.getValue(),
@@ -327,7 +342,8 @@ public class Interface extends Application {
         Label stockTypeLbl = new Label("Type");
         stockTypeBox.getChildren().addAll(stockTypeLbl ,stockType);
         pane.prefHeightProperty().bind(stockLeftLayout.heightProperty());
-        stockLeftLayout.getChildren().addAll(stockTypeBox, pane);
+        newStockBtn.setPrefWidth(120);
+        stockLeftLayout.getChildren().addAll(stockType, newStockBtn , pane);
         stockLeftLayout.setAlignment(Pos.CENTER);
         stockLeftLayout.setPadding(new Insets(20, 0,20,0));
         stockLayout.getChildren().addAll(stockLeftLayout, stockTable);
